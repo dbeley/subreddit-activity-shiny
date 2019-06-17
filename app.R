@@ -1,7 +1,6 @@
 source("dependencies.R")
 source("load_data.R")
 source("load_subreddits.R")
-source("utils.R")
 
 library("tidyverse")
 library('scales')
@@ -56,11 +55,11 @@ server <- function(input, output) {
         ggplot(aes(
           x = Date,
           y = Live.Users,
-          colour = fct_reorder(Name, Live.Users, .desc=TRUE)
+          colour = fct_reorder(Name, Live.Users, .desc = TRUE)
         )) +
         #geom_line() +
         ylab("Live Users") +
-        labs(colour= "Subreddits") +
+        labs(colour = "Subreddits") +
         theme(legend.position = "right") +
         theme(legend.key.height = unit(2, "line")) +
         geom_smooth(
@@ -69,8 +68,8 @@ server <- function(input, output) {
           se = FALSE,
           method = 'loess'
         ) +
-        scale_x_datetime(breaks=pretty_breaks(20),
-                         date_labels="%a %d %b %H:%M") +
+        scale_x_datetime(breaks = pretty_breaks(20),
+                         date_labels = "%a %d %b %H:%M") +
         theme(axis.text.x = element_text(
           angle = 25,
           vjust = 1.0,
@@ -85,15 +84,15 @@ server <- function(input, output) {
         ggplot(aes(
           x = Date,
           y = Live.Users,
-          colour = fct_reorder(Name, Live.Users, .desc=TRUE)
+          colour = fct_reorder(Name, Live.Users, .desc = TRUE)
         )) +
         geom_line(size = 1.2) +
         ylab("Live Users") +
-        labs(colour= "Subreddits") +
+        labs(colour = "Subreddits") +
         theme(legend.position = "right") +
         theme(legend.key.height = unit(2, "line")) +
-        scale_x_datetime(breaks=pretty_breaks(20),
-                         date_labels="%a %d %b %H:%M") +
+        scale_x_datetime(breaks = pretty_breaks(20),
+                         date_labels = "%a %d %b %H:%M") +
         theme(axis.text.x = element_text(
           angle = 25,
           vjust = 1.0,
@@ -111,15 +110,16 @@ server <- function(input, output) {
         group_by(Name, Weekday) %>%
         summarise(average = mean(Live.Users))
       
-      ggplot(don, aes(
-        x = Weekday,
-        y = average,
-        group = Name,
-        colour = fct_reorder(Name, average, .desc=TRUE)
-      )) +
+      ggplot(don,
+             aes(
+               x = Weekday,
+               y = average,
+               group = Name,
+               colour = fct_reorder(Name, average, .desc = TRUE)
+             )) +
         geom_line(size = 1.2) +
         ylab("Average Live Users") +
-        labs(colour= "Subreddits") +
+        labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
     }
     else if (input$radiobut == "Hour") {
@@ -133,11 +133,11 @@ server <- function(input, output) {
       ggplot(don, aes(
         x = Hour,
         y = average,
-        colour = fct_reorder(Name, average, .desc=TRUE)
+        colour = fct_reorder(Name, average, .desc = TRUE)
       )) +
         geom_line(size = 1.2) +
         ylab("Average Live Users") +
-        labs(colour= "Subreddits") +
+        labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
       
     }
@@ -153,11 +153,11 @@ server <- function(input, output) {
       ggplot(don, aes(
         x = Day,
         y = average,
-        colour = fct_reorder(Name, average, .desc=TRUE)
+        colour = fct_reorder(Name, average, .desc = TRUE)
       )) +
         geom_line(size = 1.2) +
         ylab("Average Live Users") +
-        labs(colour= "Subreddits") +
+        labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
     }
     else if (input$radiobut == "WeekSummary") {
@@ -172,38 +172,43 @@ server <- function(input, output) {
       ggplot(don, aes(
         x = Hour,
         y = average,
-        colour = fct_reorder(Name, average, .desc=TRUE)
+        colour = fct_reorder(Name, average, .desc = TRUE)
       )) +
         geom_line(size = 1.2) +
         ylab("Average Live Users") +
-        labs(colour= "Subreddits") +
+        labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))  +
-        facet_grid(~ Weekday)
+        facet_grid( ~ Weekday)
     }
   })
 }
 
 ui <- fluidPage(
-  # theme = shinytheme("flatly"),
-  # theme = shinytheme("darkly"),
-  # theme = shinytheme("slate"),
-  theme = shinytheme("simplex"),
+  theme = shinytheme("flatly"),
+  # theme = shinytheme("simplex"),
   titlePanel("Subreddit live users count"),
-  conditionalPanel("input.plot_type == 'base'",
-                   plotOutput("subredditPlot", height = '550px')) ,
-  conditionalPanel("input.plot_type == 'summary'",
-                   plotOutput("meanplot", height = '550px')) ,
+  helpText(
+    "Data extracted with the help of github:dbeley/subreddit-tracker."
+  ),
+  hr(),
+  conditionalPanel(
+    "input.plot_type == 'base'",
+    plotOutput("subredditPlot", height = '550px')
+  ),
+  conditionalPanel(
+    "input.plot_type == 'summary'",
+    plotOutput("meanplot", height = '550px')
+  ),
+  hr(),
   fluidRow(
-    hr(),
-    helpText(
-      "Data extracted with the help of github:dbeley/subreddit-tracker."
-    ),
     column(
       2,
+      offset = '0.2',
+      align = 'center',
       # graphTypeInput("plot_type")
       radioButtons(
         "plot_type",
-        label = h3("Graph type"),
+        label = h4("Graph type"),
         choices = list("Raw data" = 'base', "Summary" = 'summary'),
         selected = 'base'
       )
