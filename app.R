@@ -57,7 +57,6 @@ server <- function(input, output) {
           y = Live.Users,
           colour = fct_reorder(Name, Live.Users, .desc = TRUE)
         )) +
-        #geom_line() +
         ylab("Live Users") +
         labs(colour = "Subreddits") +
         theme(legend.position = "right") +
@@ -66,7 +65,8 @@ server <- function(input, output) {
           size = 1.2,
           span = input$smoothing_force,
           se = FALSE,
-          method = 'loess'
+          method = 'loess',
+          key_glyph=draw_key_label
         ) +
         scale_x_datetime(breaks = pretty_breaks(20),
                          date_labels = "%a %d %b %H:%M") +
@@ -86,7 +86,7 @@ server <- function(input, output) {
           y = Live.Users,
           colour = fct_reorder(Name, Live.Users, .desc = TRUE)
         )) +
-        geom_line(size = 1.2) +
+        geom_line(size = 1.2, key_glyph=draw_key_label) +
         ylab("Live Users") +
         labs(colour = "Subreddits") +
         theme(legend.position = "right") +
@@ -117,7 +117,7 @@ server <- function(input, output) {
                group = Name,
                colour = fct_reorder(Name, average, .desc = TRUE)
              )) +
-        geom_line(size = 1.2) +
+        geom_line(size = 1.2, key_glyph=draw_key_label) +
         ylab("Average Live Users") +
         labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
@@ -135,11 +135,10 @@ server <- function(input, output) {
         y = average,
         colour = fct_reorder(Name, average, .desc = TRUE)
       )) +
-        geom_line(size = 1.2) +
+        geom_line(size = 1.2, key_glyph=draw_key_label) +
         ylab("Average Live Users") +
         labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
-      
     }
     else if (input$radiobut == "Day") {
       don = df %>%
@@ -155,7 +154,7 @@ server <- function(input, output) {
         y = average,
         colour = fct_reorder(Name, average, .desc = TRUE)
       )) +
-        geom_line(size = 1.2) +
+        geom_line(size = 1.2, key_glyph=draw_key_label) +
         ylab("Average Live Users") +
         labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
@@ -174,7 +173,7 @@ server <- function(input, output) {
         y = average,
         colour = fct_reorder(Name, average, .desc = TRUE)
       )) +
-        geom_line(size = 1.2) +
+        geom_line(size = 1.2, key_glyph=draw_key_label) +
         ylab("Average Live Users") +
         labs(colour = "Subreddits") +
         theme(axis.text.x = element_text(angle = 60, hjust = 1))  +
