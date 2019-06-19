@@ -65,8 +65,8 @@ server <- function(input, output) {
           size = 1.2,
           span = input$smoothing_force,
           se = FALSE,
-          method = 'loess',
-          key_glyph=draw_key_label
+          method = 'loess'
+          # key_glyph=draw_key_label
         ) +
         scale_x_datetime(breaks = pretty_breaks(20),
                          date_labels = "%a %d %b %H:%M") +
@@ -243,7 +243,7 @@ ui <- fluidPage(
           c(
             "Week Summary" = "WeekSummary",
             "Weekday" = "Weekday",
-            "Day" = "Day",
+            "Day of the Month" = "Day",
             "Hour" = "Hour"
           )
         )
