@@ -48,12 +48,17 @@ server <- function(input, output) {
       weekstart = 1
     )
   })
-  output$subredditPlot <- renderPlot({
-    if (input$smoothing) {
-      df %>%
+  
+  df_reactive <- reactive({
+    df %>%
         filter(Name %in% input$subreddits) %>%
         filter(Date > input$dateRange[1] &
-                 Date <= input$dateRange[2]) %>%
+                 Date <= (input$dateRange[2] + 1))
+  })
+  
+  output$subredditPlot <- renderPlot({
+    if (input$smoothing) {
+      df_reactive() %>%
         ggplot(aes(
           x = Date,
           y = Live.Users,
@@ -79,10 +84,7 @@ server <- function(input, output) {
         ))
     }
     else {
-      df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= input$dateRange[2]) %>%
+      df_reactive() %>%
         ggplot(aes(
           x = Date,
           y = Live.Users,
@@ -105,10 +107,7 @@ server <- function(input, output) {
   
   output$meanplot <- renderPlot({
     if (input$radiobut == "Weekday") {
-      don = df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= input$dateRange[2]) %>%
+      don = df_reactive() %>%
         group_by(Name, Weekday) %>%
         summarise(average = mean(Live.Users))
       
@@ -125,10 +124,7 @@ server <- function(input, output) {
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
     }
     else if (input$radiobut == "Hour") {
-      don = df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= input$dateRange[2]) %>%
+      don = df_reactive() %>%
         group_by(Name, Hour) %>%
         summarise(average = mean(Live.Users))
       
@@ -143,11 +139,7 @@ server <- function(input, output) {
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
     }
     else if (input$radiobut == "Day") {
-      don = df %>%
-        filter(Name %in% input$subreddits) %>%
-        # filter(Name %in% c('france', 'de', 'italy')) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= input$dateRange[2]) %>%
+      don = df_reactive() %>%
         group_by(Name, Day) %>%
         summarise(average = mean(Live.Users))
       
@@ -162,11 +154,7 @@ server <- function(input, output) {
         theme(axis.text.x = element_text(angle = 60, hjust = 1))
     }
     else if (input$radiobut == "WeekSummary") {
-      don = df %>%
-        filter(Name %in% input$subreddits) %>%
-        # filter(Name %in% c('france', 'de', 'italy')) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= input$dateRange[2]) %>%
+      don = df_reactive() %>%
         group_by(Name, Weekday, Hour) %>%
         summarise(average = mean(Live.Users))
       
