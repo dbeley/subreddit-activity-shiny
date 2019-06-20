@@ -176,5 +176,9 @@ subreddits <- list(
     )
   ),
   'french subreddits' = sort(c('lyon',
-                               'paris'))
+                               'paris')),
+  'sports' = sort(c('soccer',
+                    'rugbyunion',
+                    'sports'
+                    ))
 )

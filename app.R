@@ -2,6 +2,8 @@ source("dependencies.R")
 source("load_data.R")
 source("load_subreddits.R")
 
+# diff <- setdiff(unlist(subreddits), unique(df$Name))
+
 library("tidyverse")
 library('scales')
 library("shinyWidgets")
