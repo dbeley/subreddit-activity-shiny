@@ -11,6 +11,8 @@ library("shinythemes")
 
 theme_set(theme_minimal() + theme(text = element_text(size = 18)))
 
+source("reactive_components.R")
+
 server <- function(input, output) {
   output$subreddits_picker <- renderUI({
     pickerInput(
@@ -49,28 +51,6 @@ server <- function(input, output) {
     )
   })
   
-  df_reactive <- reactive({
-    df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= (input$dateRange[2] + 1))
-  })
-  
-  subredditPlot_reactive <- reactive({
-    if (input$smoothing) {
-        geom_smooth(
-          size = 1.2,
-          span = input$smoothing_force,
-          se = FALSE,
-          method = 'loess'
-          # key_glyph=draw_key_label
-        )
-    }
-    else {
-        geom_line(size = 1.2, key_glyph=draw_key_label)
-    }
-  })
-  
   output$subredditPlot <- renderPlot({
     df_reactive() %>%
       ggplot(aes(
@@ -90,14 +70,6 @@ server <- function(input, output) {
         hjust = 1.0
       )) +
       subredditPlot_reactive()
-  })
-  
-  meanPlot_reactive <- reactive({
-    
-  })
-  
-  df_meanPlot_reactive <- reactive({
-    
   })
   
   output$meanPlot <- renderPlot({
@@ -189,7 +161,6 @@ ui <- fluidPage(
       2,
       offset = '0.2',
       align = 'center',
-      # graphTypeInput("plot_type")
       radioButtons(
         "plot_type",
         label = h4("Graph type"),

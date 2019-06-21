@@ -145,7 +145,27 @@ subreddits <- list(
       'wisconsin'
     )
   ),
-  'popular subreddits' = sort(
+  'music' = sort(
+    c(
+      'synthesizers',
+      'listentothis',
+      'indieheads',
+      'guitarpedals',
+      'jazz',
+      'piano',
+      'guitar',
+      'metal'
+    )
+  ),
+  'french subreddits' = sort(c('lyon',
+                               'paris',
+                               'jeuxvideo')),
+  'sports' = sort(c('soccer',
+                    'rugbyunion',
+                    'sports',
+                    'nba'
+                    )),
+  'other' = sort(
     c(
       'adviceanimals',
       'askreddit',
@@ -160,25 +180,10 @@ subreddits <- list(
       'todayilearned',
       'trees',
       'videos',
-      'worldnews'
+      'worldnews',
+      'art',
+      'food',
+      'cars'
     )
-  ),
-  'music' = sort(
-    c(
-      'synthesizers',
-      'listentothis',
-      'indieheads',
-      'guitarpedals',
-      'jazz',
-      'piano',
-      'guitar',
-      'metal'
-    )
-  ),
-  'french subreddits' = sort(c('lyon',
-                               'paris')),
-  'sports' = sort(c('soccer',
-                    'rugbyunion',
-                    'sports'
-                    ))
+  )
 )
