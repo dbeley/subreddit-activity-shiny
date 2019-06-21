@@ -56,56 +56,51 @@ server <- function(input, output) {
                  Date <= (input$dateRange[2] + 1))
   })
   
-  output$subredditPlot <- renderPlot({
+  subredditPlot_reactive <- reactive({
     if (input$smoothing) {
-      df_reactive() %>%
-        ggplot(aes(
-          x = Date,
-          y = Live.Users,
-          colour = fct_reorder(Name, Live.Users, .desc = TRUE)
-        )) +
-        ylab("Live Users") +
-        labs(colour = "Subreddits") +
-        theme(legend.position = "right") +
-        theme(legend.key.height = unit(2, "line")) +
         geom_smooth(
           size = 1.2,
           span = input$smoothing_force,
           se = FALSE,
           method = 'loess'
           # key_glyph=draw_key_label
-        ) +
-        scale_x_datetime(breaks = pretty_breaks(20),
-                         date_labels = "%a %d %b %H:%M") +
-        theme(axis.text.x = element_text(
-          angle = 25,
-          vjust = 1.0,
-          hjust = 1.0
-        ))
+        )
     }
     else {
-      df_reactive() %>%
-        ggplot(aes(
-          x = Date,
-          y = Live.Users,
-          colour = fct_reorder(Name, Live.Users, .desc = TRUE)
-        )) +
-        geom_line(size = 1.2, key_glyph=draw_key_label) +
-        ylab("Live Users") +
-        labs(colour = "Subreddits") +
-        theme(legend.position = "right") +
-        theme(legend.key.height = unit(2, "line")) +
-        scale_x_datetime(breaks = pretty_breaks(20),
-                         date_labels = "%a %d %b %H:%M") +
-        theme(axis.text.x = element_text(
-          angle = 25,
-          vjust = 1.0,
-          hjust = 1.0
-        ))
+        geom_line(size = 1.2, key_glyph=draw_key_label)
     }
   })
   
-  output$meanplot <- renderPlot({
+  output$subredditPlot <- renderPlot({
+    df_reactive() %>%
+      ggplot(aes(
+        x = Date,
+        y = Live.Users,
+        colour = fct_reorder(Name, Live.Users, .desc = TRUE)
+      )) +
+      ylab("Live Users") +
+      labs(colour = "Subreddits") +
+      theme(legend.position = "right") +
+      theme(legend.key.height = unit(2, "line")) +
+      scale_x_datetime(breaks = pretty_breaks(20),
+                       date_labels = "%a %d %b %H:%M") +
+      theme(axis.text.x = element_text(
+        angle = 25,
+        vjust = 1.0,
+        hjust = 1.0
+      )) +
+      subredditPlot_reactive()
+  })
+  
+  meanPlot_reactive <- reactive({
+    
+  })
+  
+  df_meanPlot_reactive <- reactive({
+    
+  })
+  
+  output$meanPlot <- renderPlot({
     if (input$radiobut == "Weekday") {
       don = df_reactive() %>%
         group_by(Name, Weekday) %>%
@@ -186,7 +181,7 @@ ui <- fluidPage(
   ),
   conditionalPanel(
     "input.plot_type == 'summary'",
-    plotOutput("meanplot", height = '550px')
+    plotOutput("meanPlot", height = '550px')
   ),
   hr(),
   fluidRow(
