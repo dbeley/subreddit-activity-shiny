@@ -11,10 +11,10 @@ library("shinythemes")
 
 theme_set(theme_minimal() + theme(text = element_text(size = 18)))
 
-source("reactive_components.R")
 
 server <- function(input, output) {
-  output$subreddits_picker <- renderUI({
+  source("reactive_components.R", local = TRUE)
+  output$subredditsPicker <- renderUI({
     pickerInput(
       inputId = "subreddits",
       label = "Select one or more",
@@ -36,7 +36,7 @@ server <- function(input, output) {
     )
   })
   
-  output$date_input <- renderUI({
+  output$dateInput <- renderUI({
     dateRangeInput(
       'dateRange',
       label = 'Choose a time range',
@@ -52,7 +52,7 @@ server <- function(input, output) {
   })
   
   output$subredditPlot <- renderPlot({
-    df_reactive() %>%
+    df_subredditPlot_reactive() %>%
       ggplot(aes(
         x = Date,
         y = Live.Users,
@@ -69,73 +69,11 @@ server <- function(input, output) {
         vjust = 1.0,
         hjust = 1.0
       )) +
-      subredditPlot_reactive()
+      plot_subredditPlot_reactive()
   })
   
   output$meanPlot <- renderPlot({
-    if (input$radiobut == "Weekday") {
-      don = df_reactive() %>%
-        group_by(Name, Weekday) %>%
-        summarise(average = mean(Live.Users))
-      
-      ggplot(don,
-             aes(
-               x = Weekday,
-               y = average,
-               group = Name,
-               colour = fct_reorder(Name, average, .desc = TRUE)
-             )) +
-        geom_line(size = 1.2, key_glyph=draw_key_label) +
-        ylab("Average Live Users") +
-        labs(colour = "Subreddits") +
-        theme(axis.text.x = element_text(angle = 60, hjust = 1))
-    }
-    else if (input$radiobut == "Hour") {
-      don = df_reactive() %>%
-        group_by(Name, Hour) %>%
-        summarise(average = mean(Live.Users))
-      
-      ggplot(don, aes(
-        x = Hour,
-        y = average,
-        colour = fct_reorder(Name, average, .desc = TRUE)
-      )) +
-        geom_line(size = 1.2, key_glyph=draw_key_label) +
-        ylab("Average Live Users") +
-        labs(colour = "Subreddits") +
-        theme(axis.text.x = element_text(angle = 60, hjust = 1))
-    }
-    else if (input$radiobut == "Day") {
-      don = df_reactive() %>%
-        group_by(Name, Day) %>%
-        summarise(average = mean(Live.Users))
-      
-      ggplot(don, aes(
-        x = Day,
-        y = average,
-        colour = fct_reorder(Name, average, .desc = TRUE)
-      )) +
-        geom_line(size = 1.2, key_glyph=draw_key_label) +
-        ylab("Average Live Users") +
-        labs(colour = "Subreddits") +
-        theme(axis.text.x = element_text(angle = 60, hjust = 1))
-    }
-    else if (input$radiobut == "WeekSummary") {
-      don = df_reactive() %>%
-        group_by(Name, Weekday, Hour) %>%
-        summarise(average = mean(Live.Users))
-      
-      ggplot(don, aes(
-        x = Hour,
-        y = average,
-        colour = fct_reorder(Name, average, .desc = TRUE)
-      )) +
-        geom_line(size = 1.2, key_glyph=draw_key_label) +
-        ylab("Average Live Users") +
-        labs(colour = "Subreddits") +
-        theme(axis.text.x = element_text(angle = 60, hjust = 1))  +
-        facet_grid( ~ Weekday)
-    }
+    plot_meanPlot_reactive()
   })
 }
 
@@ -148,11 +86,11 @@ ui <- fluidPage(
   ),
   hr(),
   conditionalPanel(
-    "input.plot_type == 'base'",
+    "input.plotType == 'base'",
     plotOutput("subredditPlot", height = '550px')
   ),
   conditionalPanel(
-    "input.plot_type == 'summary'",
+    "input.plotType == 'summary'",
     plotOutput("meanPlot", height = '550px')
   ),
   hr(),
@@ -162,7 +100,7 @@ ui <- fluidPage(
       offset = '0.2',
       align = 'center',
       radioButtons(
-        "plot_type",
+        "plotType",
         label = h4("Graph type"),
         choices = list("Raw data" = 'base', "Summary" = 'summary'),
         selected = 'base'
@@ -170,14 +108,14 @@ ui <- fluidPage(
     ),
     column(3,
            h4("Subreddits"),
-           uiOutput("subreddits_picker")),
+           uiOutput("subredditsPicker")),
     column(3,
            h4("Date"),
-           uiOutput("date_input")),
+           uiOutput("dateInput")),
     column(
       3,
       conditionalPanel(
-        "input.plot_type == 'base'",
+        "input.plotType == 'base'",
         h4("Smooth Lines"),
         checkboxInput("smoothing", label = "Enable smoothing", value =
                         FALSE),
@@ -191,10 +129,10 @@ ui <- fluidPage(
         )
       ),
       conditionalPanel(
-        "input.plot_type == 'summary'",
+        "input.plotType == 'summary'",
         h4("Summary"),
         radioButtons(
-          "radiobut",
+          "summaryType",
           label = "Summary Type",
           c(
             "Week Summary" = "WeekSummary",

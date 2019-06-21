@@ -163,8 +163,7 @@ subreddits <- list(
   'sports' = sort(c('soccer',
                     'rugbyunion',
                     'sports',
-                    'nba'
-                    )),
+                    'nba')),
   'other' = sort(
     c(
       'adviceanimals',
