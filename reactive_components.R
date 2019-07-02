@@ -55,10 +55,7 @@ plot_subredditPlot_reactive <- reactive({
 plot_meanPlot_reactive <- reactive({
   if (input$summaryType == "Weekday") {
     ggplot(
-      df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= (input$dateRange[2] + 1)) %>%
+      df_subredditPlot_reactive_sqlite() %>%
         group_by(Name, Weekday) %>%
         summarise(average = mean(Live_Users)),
       aes(
@@ -75,10 +72,7 @@ plot_meanPlot_reactive <- reactive({
   }
   else if (input$summaryType == "Hour") {
     ggplot(
-      df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= (input$dateRange[2] + 1)) %>%
+      df_subredditPlot_reactive_sqlite() %>%
         group_by(Name, Hour) %>%
         summarise(average = mean(Live_Users)),
       aes(
@@ -94,10 +88,7 @@ plot_meanPlot_reactive <- reactive({
   }
   else if (input$summaryType == "Day") {
     ggplot(
-      df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= (input$dateRange[2] + 1)) %>%
+      df_subredditPlot_reactive_sqlite() %>%
         group_by(Name, Day) %>%
         summarise(average = mean(Live_Users)),
       aes(
@@ -113,10 +104,7 @@ plot_meanPlot_reactive <- reactive({
   }
   else if (input$summaryType == "WeekSummary") {
     ggplot(
-      df %>%
-        filter(Name %in% input$subreddits) %>%
-        filter(Date > input$dateRange[1] &
-                 Date <= (input$dateRange[2] + 1)) %>%
+      df_subredditPlot_reactive_sqlite() %>%
         group_by(Name, Weekday, Hour) %>%
         summarise(average = mean(Live_Users)),
       aes(

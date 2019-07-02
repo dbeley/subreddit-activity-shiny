@@ -7,7 +7,8 @@ list_of_packages = c(
   "readr",
   "dplyr",
   "lubridate",
-  "dbplyr"
+  "dbplyr",
+  "RSQLite"
 )
 
 lapply(list_of_packages,
