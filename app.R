@@ -2,7 +2,7 @@ source("dependencies.R")
 source("load_data.R")
 source("load_subreddits.R")
 
-# diff <- setdiff(unlist(subreddits), unique(df$Name))
+# diff <- list(setdiff(unlist(subreddits), unique(df$Name)), setdiff(unique(df$Name), unlist(subreddits)))
 
 library("tidyverse")
 library('scales')
@@ -52,11 +52,12 @@ server <- function(input, output) {
   })
   
   output$subredditPlot <- renderPlot({
-    df_subredditPlot_reactive() %>%
+    # df_subredditPlot_reactive() %>%
+    df_subredditPlot_reactive_sqlite() %>%
       ggplot(aes(
         x = Date,
-        y = Live.Users,
-        colour = fct_reorder(Name, Live.Users, .desc = TRUE)
+        y = Live_Users,
+        colour = fct_reorder(Name, Live_Users, .desc = TRUE)
       )) +
       ylab("Live Users") +
       labs(colour = "Subreddits") +

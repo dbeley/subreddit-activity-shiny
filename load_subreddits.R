@@ -164,6 +164,22 @@ subreddits <- list(
                     'rugbyunion',
                     'sports',
                     'nba')),
+  'tv series' = sort(
+    c(
+      'thewestwing',
+      'thesopranos',
+      'blackmirror',
+      'dundermifflin',
+      'seinfeld',
+      'thewire',
+      'whentheyseeus',
+      'twinpeaks',
+      'chernobyltv',
+      'westworld',
+      'pokemon',
+      'strangerthings'
+    )
+  ),
   'other' = sort(
     c(
       'adviceanimals',
@@ -175,7 +191,6 @@ subreddits <- list(
       'news',
       'pics',
       'politics',
-      'the_donald',
       'todayilearned',
       'trees',
       'videos',

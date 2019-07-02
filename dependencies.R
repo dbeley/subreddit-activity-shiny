@@ -6,7 +6,8 @@ list_of_packages = c(
   "shinythemes",
   "readr",
   "dplyr",
-  "lubridate"
+  "lubridate",
+  "dbplyr"
 )
 
 lapply(list_of_packages,
