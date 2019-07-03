@@ -44,7 +44,7 @@ server <- function(input, output) {
       label = 'Choose a time range',
       start = Sys.Date() - 7,
       end = Sys.Date(),
-      min = "2019-07-03",
+      min = "2019-06-01",
       max = Sys.Date(),
       format = "dd/mm/yyyy",
       startview = 'week',

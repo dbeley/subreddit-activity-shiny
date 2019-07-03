@@ -9,9 +9,8 @@ df_subredditPlot_reactive_sqlite <- reactive({
     mutate(
       # Live_Users = as.integer(as.character(Live_Users)),
       Live_Users = as.integer(Live_Users),
-      Name = as.character(Name),
-      Date = as.POSIXct(Date)
-    ) %>%
+      # Name = as.character(Name),
+      Date = as.POSIXct(Date)) %>%
     mutate(
       Hour = hour(Date),
       Day = day(Date),
@@ -110,6 +109,6 @@ plot_meanPlot_reactive <- reactive({
       ylab("Average Live Users") +
       labs(colour = "Subreddits") +
       theme(axis.text.x = element_text(angle = 60, hjust = 1))  +
-      facet_grid( ~ Weekday)
+      facet_grid(~ Weekday)
   }
 })
