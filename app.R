@@ -2,6 +2,7 @@ source("dependencies.R")
 source("load_data.R")
 source("load_subreddits.R")
 
+# Compare subreddits names in the database against the choices available in the UI
 # sub_dataset <- sqldf %>% select(Name) %>% collect() %>% unique() %>% deframe()
 # sub_list <- unlist(subreddits)
 # diff <- list(setdiff(sub_list, sub_dataset), setdiff(sub_dataset, sub_list))
@@ -12,7 +13,6 @@ library("shinyWidgets")
 library("shinythemes")
 
 theme_set(theme_minimal() + theme(text = element_text(size = 18)))
-
 
 server <- function(input, output) {
   source("reactive_components.R", local = TRUE)
@@ -44,7 +44,7 @@ server <- function(input, output) {
       label = 'Choose a time range',
       start = Sys.Date() - 7,
       end = Sys.Date(),
-      min = "2019-05-01",
+      min = "2019-07-03",
       max = Sys.Date(),
       format = "dd/mm/yyyy",
       startview = 'week',
@@ -54,7 +54,6 @@ server <- function(input, output) {
   })
   
   output$subredditPlot <- renderPlot({
-    # df_subredditPlot_reactive() %>%
     df_subredditPlot_reactive_sqlite() %>%
       ggplot(aes(
         x = Date,
