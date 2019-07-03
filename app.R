@@ -2,7 +2,9 @@ source("dependencies.R")
 source("load_data.R")
 source("load_subreddits.R")
 
-# diff <- list(setdiff(unlist(subreddits), unique(df$Name)), setdiff(unique(df$Name), unlist(subreddits)))
+# sub_dataset <- sqldf %>% select(Name) %>% collect() %>% unique() %>% deframe()
+# sub_list <- unlist(subreddits)
+# diff <- list(setdiff(sub_list, sub_dataset), setdiff(sub_dataset, sub_list))
 
 library("tidyverse")
 library('scales')
@@ -83,7 +85,7 @@ ui <- fluidPage(
   # theme = shinytheme("simplex"),
   titlePanel("Subreddit live users count"),
   helpText(
-    "Data extracted with the help of github:dbeley/subreddit-tracker."
+    "All dates values use the UTC+1 time zone. Data extracted with https://github.com/dbeley/subreddit-tracker."
   ),
   hr(),
   conditionalPanel(

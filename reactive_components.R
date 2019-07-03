@@ -14,7 +14,8 @@ df_subredditPlot_reactive_sqlite <- reactive({
              Date <= (!!input$dateRange[2] + 1)) %>%
     collect() %>%
     mutate(
-      Live_Users = as.integer(as.character(Live_Users)),
+      # Live_Users = as.integer(as.character(Live_Users)),
+      Live_Users = as.integer(Live_Users),
       Name = as.character(Name),
       Date = as.POSIXct(Date)
       # Date = as.POSIXct(Date, origin="1970-01-01")
