@@ -288,7 +288,10 @@ subreddits <- list(
       'movies',
       'documentaries',
       'moviedetails',
-      'television'
+      'television',
+      'gameofthrones',
+      'freefolk',
+      'starwars'
     )
   ),
   'other' = sort(
@@ -325,7 +328,25 @@ subreddits <- list(
       'announcements',
       'bestof',
       'blog',
-      'beta'
+      'beta',
+      'showerthoughts',
+      'whatcouldgowrong',
+      'interestingasfuck',
+      'humansbeingbros',
+      'oddlysatisfying',
+      'iama',
+      'bettereveryloop',
+      'oldschoolcool',
+      'memes',
+      'gifs',
+      'mildlyinteresting',
+      'wholesomememes',
+      'dankmemes',
+      'me_irl',
+      'mademesmile',
+      'tifu',
+      'memeeconomy',
+      'bikinibottomtwitter'
     )
   )
 )

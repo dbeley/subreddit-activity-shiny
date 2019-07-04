@@ -1,16 +1,12 @@
 df_subredditPlot_reactive_sqlite <- reactive({
   sqldf %>%
-    # filter(Live_Users > 0) %>%
-    # filter(Date >= "2019-05-01") %>%
     filter(Name %in% !!input$subreddits) %>%
     filter(Date > !!input$dateRange[1] &
-             Date <= (!!input$dateRange[2] + 1)) %>%
+             Date <= !!(input$dateRange[2] + 1)) %>%
     collect() %>%
-    mutate(
-      # Live_Users = as.integer(as.character(Live_Users)),
-      Live_Users = as.integer(Live_Users),
-      # Name = as.character(Name),
-      Date = as.POSIXct(Date)) %>%
+    
+    mutate(Live_Users = as.integer(Live_Users),
+           Date = as.POSIXct(Date)) %>%
     mutate(
       Hour = hour(Date),
       Day = day(Date),
@@ -27,6 +23,7 @@ df_subredditPlot_reactive_sqlite <- reactive({
         )
       )
     )
+  
 })
 
 plot_subredditPlot_reactive <- reactive({
@@ -109,6 +106,6 @@ plot_meanPlot_reactive <- reactive({
       ylab("Average Live Users") +
       labs(colour = "Subreddits") +
       theme(axis.text.x = element_text(angle = 60, hjust = 1))  +
-      facet_grid(~ Weekday)
+      facet_grid( ~ Weekday)
   }
 })
