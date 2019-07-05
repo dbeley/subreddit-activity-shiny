@@ -1,2 +1,2 @@
-con <- DBI::dbConnect(RSQLite::SQLite(), "subreddit_tracker.db")
+con <- DBI::dbConnect(SQLite(), "subreddit_tracker.db")
 sqldf <- tbl(con, "measures")

@@ -1,4 +1,13 @@
 source("dependencies.R")
+
+library("RSQLite")
+library("ggplot2")
+library("forcats")
+library("scales")
+library("lubridate")
+library("shinyWidgets")
+library("shinythemes")
+
 source("load_data.R")
 source("load_subreddits.R")
 
@@ -7,10 +16,7 @@ source("load_subreddits.R")
 # sub_list <- unlist(subreddits)
 # diff <- list(setdiff(sub_list, sub_dataset), setdiff(sub_dataset, sub_list))
 
-library("tidyverse")
-library('scales')
-library("shinyWidgets")
-library("shinythemes")
+# library("tidyverse")
 
 theme_set(theme_minimal() + theme(text = element_text(size = 18)))
 
