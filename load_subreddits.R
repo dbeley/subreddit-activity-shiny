@@ -346,7 +346,17 @@ subreddits <- list(
       'mademesmile',
       'tifu',
       'memeeconomy',
-      'bikinibottomtwitter'
+      'bikinibottomtwitter',
+      'prequelmemes',
+      'blackpeopletwitter',
+      'holdmybeer',
+      'blunderyears',
+      'facepalm',
+      'crappydesign',
+      'trippinthroughtime',
+      'perfecttiming',
+      'wtf',
+      'the_donald'
     )
   )
 )

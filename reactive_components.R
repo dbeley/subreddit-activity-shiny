@@ -1,3 +1,10 @@
+# df_subredditPlot_reactive_csv <- reactive({
+#   df %>%
+#     filter(Name %in% input$subreddits) %>%
+#     filter(Date > input$dateRange[1] &
+#              Date <= (input$dateRange[2] + 1))
+# })
+
 df_subredditPlot_reactive_sqlite <- reactive({
   sqldf %>%
     filter(Name %in% !!input$subreddits) %>%

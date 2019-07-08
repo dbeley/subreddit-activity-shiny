@@ -1,22 +1,30 @@
+# Install dependencies
 source("dependencies.R")
 
 library("RSQLite")
-library("ggplot2")
 library("forcats")
-library("scales")
+library("ggplot2")
 library("lubridate")
+library("scales")
 library("shinyWidgets")
 library("shinythemes")
+library("tibble")
 
 source("load_data.R")
 source("load_subreddits.R")
 
 # Compare subreddits names in the database against the choices available in the UI
-# sub_dataset <- sqldf %>% select(Name) %>% collect() %>% unique() %>% deframe()
-# sub_list <- unlist(subreddits)
-# diff <- list(setdiff(sub_list, sub_dataset), setdiff(sub_dataset, sub_list))
+# sqlite
+sub_dataset <- sqldf %>% select(Name) %>% collect() %>% unique() %>% deframe()
+# csv
+# sub_dataset <- unique(df$Name)
 
-# library("tidyverse")
+sub_list <- unlist(subreddits)
+diff <- list(setdiff(sub_list, sub_dataset), setdiff(sub_dataset, sub_list))
+
+# Only keep subreddits presents in the dataframe
+subreddits <- lapply(subreddits, function(x) x[!x %in% diff[[1]]])
+subreddits <- lapply(subreddits, function(x) x[!x %in% diff[[2]]])
 
 theme_set(theme_minimal() + theme(text = element_text(size = 18)))
 
@@ -50,7 +58,7 @@ server <- function(input, output) {
       label = 'Choose a time range',
       start = Sys.Date() - 7,
       end = Sys.Date(),
-      min = "2019-05-01",
+      min = "2019-05-15",
       max = Sys.Date(),
       format = "dd/mm/yyyy",
       startview = 'week',
@@ -61,6 +69,7 @@ server <- function(input, output) {
   
   output$subredditPlot <- renderPlot({
     df_subredditPlot_reactive_sqlite() %>%
+    # df_subredditPlot_reactive_csv() %>%
       ggplot(aes(
         x = Date,
         y = Live_Users,

@@ -1,14 +1,15 @@
 list_of_packages = c(
-  "shiny",
-  "shinyWidgets",
-  "shinythemes",
   "RSQLite",
   "dbplyr",
   "dplyr",
+  "forcats",
+  "ggplot2",
   "lubridate",
   "scales",
-  "ggplot2",
-  "forcats"
+  "shiny",
+  "shinyWidgets",
+  "shinythemes",
+  "tibble"
 )
 
 lapply(list_of_packages,
