@@ -99,7 +99,7 @@ ui <- fluidPage(
   # theme = shinytheme("simplex"),
   titlePanel("Subreddit live users count"),
   helpText(
-    "All dates values use the UTC+1 time zone. Data extracted with https://github.com/dbeley/subreddit-tracker."
+    "All dates values use the UTC+1 time zone."
   ),
   hr(),
   conditionalPanel(

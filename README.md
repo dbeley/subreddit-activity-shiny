@@ -2,9 +2,13 @@
 
 Simple shiny app for exploring the live users count from a selection of subreddits.
 
+Data extracted with [subreddit_tracker](https://github.com/dbeley/subreddit_tracker).
+
 ## Gallery
 
 ## Installation
+
+### Run the app locally from source
 
 - Install rstudio.
 - Clone/Download the project on your computer.
@@ -13,6 +17,17 @@ Simple shiny app for exploring the live users count from a selection of subreddi
 - Click on the run app button.
 - Wait for the dependencies to be installed (can take quite some time as the packages are compiled from source).
 - The app should launch after that.
+
+### Run the app locally with runGithub
+
+In rstudio, run the following code :
+
+```
+options(Ncpus=4)
+install.packages('shiny')
+library('shiny')
+runGitHub('subreddit-activity-shiny', 'dbeley')
+```
 
 ## Known Issues
 
