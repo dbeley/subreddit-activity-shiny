@@ -18,7 +18,7 @@ subreddits <- list(
   'politics' = sort(readLines("subreddits/politics")),
   'animal' = sort(readLines("subreddits/animals")),
   'cars' = sort(readLines("subreddits/cars")),
-  'finance' = sort(readline("subreddits/finance")),
+  'finance' = sort(readLines("subreddits/finance")),
   'crypto' = sort(readLines("subreddits/crypto")),
   'guns' = sort(readLines("subreddits/guns")),
   'other' = sort(readLines("subreddits/other"))

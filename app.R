@@ -1,3 +1,4 @@
+rm(list=ls())
 # Install dependencies
 source("dependencies.R")
 
@@ -12,6 +13,8 @@ library("tibble")
 
 source("load_data.R")
 source("load_subreddits.R")
+
+# df_date <- sqldf %>% select(Date) %>% collect()
 
 # Compare subreddits names in the database against the choices available in the UI
 # sqlite
@@ -56,10 +59,10 @@ server <- function(input, output) {
     dateRangeInput(
       'dateRange',
       label = 'Choose a time range',
-      start = Sys.Date() - 7,
-      end = Sys.Date(),
+      start = max_Date - weeks(1),
+      end = max_Date,
       min = "2019-08-26",
-      max = Sys.Date(),
+      max = max_Date,
       format = "dd/mm/yyyy",
       startview = 'week',
       language = 'fr',
@@ -69,14 +72,12 @@ server <- function(input, output) {
   
   output$subredditPlot <- renderPlot({
     df_subredditPlot_reactive_sqlite() %>%
-    # df_subredditPlot_reactive_csv() %>%
       ggplot(aes(
         x = Date,
         y = Live_Users,
         colour = fct_reorder(Name, Live_Users, .desc = TRUE)
       )) +
-      ylab("Live Users") +
-      labs(colour = "Subreddits") +
+      labs(y = "Live Users", colour = "Subreddits") +
       theme(legend.position = "right") +
       theme(legend.key.height = unit(2, "line")) +
       scale_x_datetime(breaks = pretty_breaks(20),

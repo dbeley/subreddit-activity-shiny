@@ -4,6 +4,13 @@
 #     filter(Date > input$dateRange[1] &
 #              Date <= (input$dateRange[2] + 1))
 # })
+max_Date <- sqldf %>%
+    select(Date) %>%
+    collect() %>%
+    top_n(1) %>%
+    head(1) %>%
+    mutate(Date = ymd(format(ymd_hm(Date), "%Y-%m-%d"))) %>%
+    pull(Date)
 
 df_subredditPlot_reactive_sqlite <- reactive({
   sqldf %>%
@@ -13,24 +20,21 @@ df_subredditPlot_reactive_sqlite <- reactive({
     collect() %>%
     
     mutate(Live_Users = as.integer(Live_Users),
-           Date = as.POSIXct(Date)) %>%
-    mutate(
-      Hour = hour(Date),
-      Day = day(Date),
-      Weekday = factor(
-        weekdays(Date),
-        levels = c(
-          'lundi',
-          'mardi',
-          'mercredi',
-          'jeudi',
-          'vendredi',
-          'samedi',
-          'dimanche'
-        )
-      )
-    )
-  
+          # Date = as.POSIXct(Date)) %>%
+          Date = ymd_hm(Date),
+          Hour = hour(Date),
+          Day = day(Date),
+          Weekday = factor(
+            weekdays(Date),
+            levels = c(
+              'lundi',
+              'mardi',
+              'mercredi',
+              'jeudi',
+              'vendredi',
+              'samedi',
+              'dimanche'
+            )))
 })
 
 plot_subredditPlot_reactive <- reactive({
@@ -62,8 +66,7 @@ plot_meanPlot_reactive <- reactive({
       )
     ) +
       geom_line(size = 1.2, key_glyph = draw_key_label) +
-      ylab("Average Live Users") +
-      labs(colour = "Subreddits") +
+      labs(y = "Average Live Users", colour = "Subreddits") +
       theme(axis.text.x = element_text(angle = 60, hjust = 1))
   }
   else if (input$summaryType == "Hour") {
@@ -78,8 +81,7 @@ plot_meanPlot_reactive <- reactive({
       )
     ) +
       geom_line(size = 1.2, key_glyph = draw_key_label) +
-      ylab("Average Live Users") +
-      labs(colour = "Subreddits") +
+      labs(y = "Average Live Users", colour = "Subreddits") +
       theme(axis.text.x = element_text(angle = 60, hjust = 1))
   }
   else if (input$summaryType == "Day") {
@@ -94,8 +96,7 @@ plot_meanPlot_reactive <- reactive({
       )
     ) +
       geom_line(size = 1.2, key_glyph = draw_key_label) +
-      ylab("Average Live Users") +
-      labs(colour = "Subreddits") +
+      labs(y = "Average Live Users", colour = "Subreddits") +
       theme(axis.text.x = element_text(angle = 60, hjust = 1))
   }
   else if (input$summaryType == "WeekSummary") {
@@ -110,8 +111,7 @@ plot_meanPlot_reactive <- reactive({
       )
     ) +
       geom_line(size = 1.2, key_glyph = draw_key_label) +
-      ylab("Average Live Users") +
-      labs(colour = "Subreddits") +
+      labs(y = "Average Live Users", colour = "Subreddits") +
       theme(axis.text.x = element_text(angle = 60, hjust = 1))  +
       facet_grid( ~ Weekday)
   }
