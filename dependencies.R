@@ -1,6 +1,6 @@
 list_of_packages = c(
   "RSQLite",
-  "dbplyr",
+  # "dbplyr",
   "dplyr",
   "forcats",
   "ggplot2",

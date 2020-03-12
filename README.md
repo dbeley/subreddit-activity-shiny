@@ -8,7 +8,8 @@ Data extracted with [subreddit_tracker](https://github.com/dbeley/subreddit_trac
 
 ## Gallery
 
-<a href="images/image.png"><img src="images/image.png"/></a>
+<a href="images/image1.png"><img src="images/image1.png"/></a>
+<a href="images/image2.png"><img src="images/image2.png"/></a>
 
 ## Installation
 
