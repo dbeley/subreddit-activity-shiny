@@ -2,6 +2,7 @@
 
 Simple shiny app for exploring the live users count from a selection of subreddits.
 
+See it live at https://dbeley.shinyapps.io/subreddit-activity-shiny.
 
 Data extracted with [subreddit_tracker](https://github.com/dbeley/subreddit_tracker).
 
