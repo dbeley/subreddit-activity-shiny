@@ -20,7 +20,7 @@ sub_dataset <- sqldf %>% select(Name) %>% collect() %>% unique() %>% deframe()
 # sub_dataset <- unique(df$Name)
 
 sub_list <- unlist(subreddits)
-diff <- list(setdiff(sub_list, sub_dataset), setdiff(sub_dataset, sub_list))
+diff <- list(sort(setdiff(sub_list, sub_dataset)), sort(setdiff(sub_dataset, sub_list)))
 
 # Only keep subreddits presents in the dataframe
 subreddits <- lapply(subreddits, function(x) x[!x %in% diff[[1]]])
@@ -58,7 +58,7 @@ server <- function(input, output) {
       label = 'Choose a time range',
       start = Sys.Date() - 7,
       end = Sys.Date(),
-      min = "2019-05-15",
+      min = "2019-08-26",
       max = Sys.Date(),
       format = "dd/mm/yyyy",
       startview = 'week',
