@@ -1,8 +1,10 @@
-rm(list=ls())
+# rm(list=ls())
 # Install dependencies
-source("dependencies.R")
+# source("dependencies.R")
 
 library("RSQLite")
+library("dbplyr")
+library("dplyr")
 library("forcats")
 library("ggplot2")
 library("lubridate")
