@@ -1,8 +1,8 @@
 version: "3.0"
 
 services:
-  shiny:
-    container_name: subreddit-activity-shiny
+  subredditactivity:
+    container_name: subredditactivity
     # To build the image locally, comment out "image" below, and uncomment
     # "build" and the lines indented under it.
     build:
@@ -16,11 +16,21 @@ services:
     # Uncomment the lines below to disable application logs STDOUT output
     # environment:
     #   - APPLICATION_LOGS_TO_STDOUT=false
-    ports:
-      - '3838:3838'
+    # ports:
+    #   - '3838:3838'
     volumes:
       - ./shiny_logs:/var/log/shiny-server
       # Comment the line below out for initial testing. With it commented out,
       # going to localhost:80 in one's web browser will show a "Welcome to
       # Shiny Server!" diagnostics page.
       - ./subreddits/:/srv/shiny-server/subreddits
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.subredditactivity.entrypoints=insecure"
+        - "traefik.http.routers.subredditactivity.rule=Host(`subshiny.$DOMAIN`)"
+        - "traefik.http.services.subredditactivity.loadbalancer.server.port=3838"
+
+networks:
+    default:
+        external:
+            name: $DEFAULT_NETWORK

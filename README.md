@@ -40,3 +40,12 @@ runGitHub('subreddit-activity-shiny', 'dbeley')
 - When there are missing values, the graph draws a long line connecting the two valid points surrounding the missing range.
 - Missing values breaks the smoothing.
 - Missing values sometimes breaks the summary graphs.
+
+## .env file
+
+To use the provided docker-compose file with traefik, you will need an .env file with this content.
+
+```
+DEFAULT_NETWORK=traefik-netowrk
+DOMAIN=localhost
+```
