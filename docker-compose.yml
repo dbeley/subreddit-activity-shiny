@@ -26,9 +26,10 @@ services:
       - ./subreddits/:/srv/shiny-server/subreddits
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.subredditactivity.entrypoints=insecure"
+        - "traefik.http.routers.subredditactivity.entrypoints=secure"
         - "traefik.http.routers.subredditactivity.rule=Host(`subshiny.$DOMAIN`)"
         - "traefik.http.services.subredditactivity.loadbalancer.server.port=3838"
+        - "traefik.http.routers.subredditactivity.tls.certresolver=le"
 
 networks:
     default:
